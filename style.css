@@ -1,0 +1,30 @@
+﻿body {
+	background: lightblue;
+	text-align: center;
+}
+
+#root {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+}
+.app-title {
+	color: darkred;
+	font-size: 45px;
+}
+
+.userInfo {
+	display: flex;
+	flex-direction: column;
+	padding: 5px;
+	align-items: center;
+}
+
+.userList {
+	margin-top: 10px;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	border: solid 2px red;
+}
