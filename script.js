@@ -4,7 +4,8 @@ class App extends React.Component {
     super();
     this.state = {
       searchText: '',
-      users: []
+      users: [],
+      areResults: false
     };
   }
 
@@ -14,11 +15,18 @@ class App extends React.Component {
 
   onSubmit(event) {
     event.preventDefault();
+    this.setState({areResults:true});
     const {searchText} = this.state;
-    const url = `https://api.github.com/search/users?q=${searchText}`;
-    fetch(url)
-      .then(response => response.json())
-      .then(responseJson => this.setState({users: responseJson.items}));
+    if (this.state.searchText != '') {
+      const url = `https://api.github.com/search/users?q=${searchText}`;
+      fetch(url)
+        .then(response => response.json())
+        .then(responseJson => this.setState({users: responseJson.items}));
+    }
+    else {
+      this.setState({areResults:false, users:[]});
+      console.log({searchText});
+    }
   }
 
   render() {
@@ -32,23 +40,38 @@ class App extends React.Component {
             onChange={event => this.onChangeHandle(event)}
             value={this.state.searchText}/>
         </form>
-        <UsersList users={this.state.users}/>
+        <UsersList users={this.state.users} results={this.state.areResults}  />
       </div>
     );
   }
 }
 
 class UsersList extends React.Component {
+
   get users() {
     return this.props.users.map(user => <User key={user.id} user={user}/>);
   }
 
   render() {
-    return (
-      <div className='userList'>
-        {this.users}
-      </div>
-    );
+    if (this.props.users.length > 0){
+      return (
+        <div className='userList'>
+          {this.users}
+        </div>
+      );
+    } else if (this.props.results === true) { 
+      return (
+        <div className='noUserList'>
+          Nic Nie znaleziono!
+        </div>
+      );  
+    } else {
+      return (
+        <div className='noUserList'>
+          Czekam na zapytania o Użytkowników!
+        </div>
+      );
+    }
   }
 }
 

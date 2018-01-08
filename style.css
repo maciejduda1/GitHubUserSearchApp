@@ -28,3 +28,7 @@
 	justify-content: space-between;
 	border: solid 2px red;
 }
+
+.noUserList {
+	text-align: center;
+}
